@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML5 Game</title>
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <style type="text/css">
+        body{
+            margin:0px;
+            padding:0px;
+            background:#222222;
+        }
+
+        #game{
+            background:#ffffff;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-left:-320px;
+            margin-top:-180px;
+        }
+    </style>
+    <script type="text/javascript">
+    var canvas = document.getElementById('game');
+    var context = canvas.getContext('2d');
+
+    context.font = "50px Impact";
+    context.fillStyle = "#00ffff";
+    context.textAlign = "center";
+    context.fillText("HTML5 Game", canvas.width/2, canvas.height/2);
+
+    context.font = "20px Arial";
+    context.fillText("Press Enter To Start", canvas.width/2, canvas.height/2 + 50);
+    </script>
+</head>
+<body>
+
+    <canvas id="game" width="640" height="360"></canvas>
+    <!-- <script type="text/javascript" src="game.js"></script> -->
+
+</body>
+</html>
+
+
+

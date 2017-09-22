@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Car Raceing Game Developd by UG</title>
+<style>
+canvas {
+    border: 1px solid #d3d3d3;
+    background-color: #696969;
+}
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script>
+
+var ugcar; // name of the car
+var footpath1; // Top Footpath
+var footpath2; // Bottom Footpath
+var manhole1; // Manhole 1
+var manhole2; // Manhole 2
+var manhole3; // Manhole 3
+var manhole4; // Manhole 4
+var manhole5; // Manhole 5
+var manhole6; // Manhole 6
+var manhole7; // Manhole 7
+var manhole8; // Manhole 8
+
+var divider1; // Divider 1
+var divider2; // Divider 2
+var divider3; // Divider 2
+
+var myObstacles = [];
+var mySound;
+var myMusic;
+
+
+// Funcation Use in body
+function startGame() {
+    ugcar = new component(80, 30, "car.png", 100, 150, "image");//car (width, height, "image name", start-position-left, start-position-top, type);
+    // footpath1 = new component(1080, 50, "foothpath.png", 0, 0, "image");
+    // footpath2 = new component(1080, 50, "foothpath1.png", 0, 310, "image");
+    // manhole1 = new component(40, 40, "manhole.png", -25, 80, "image");
+    // manhole2 = new component(40, 40, "manhole.png", 300, 80, "image");
+    // manhole3 = new component(40, 40, "manhole.png", 600, 80, "image");
+    // manhole4 = new component(40, 40, "manhole.png", 900, 80, "image");
+    // manhole5 = new component(40, 40, "manhole.png", 150, 230, "image");
+    // manhole6 = new component(40, 40, "manhole.png", 450, 230, "image");
+    // manhole7 = new component(40, 40, "manhole.png", 750, 230, "image");
+    // manhole8 = new component(40, 40, "manhole.png", 1050, 230, "image");
+    // divider1 = new component(1080, 2, "divider.png", 0, 100, "image");
+    // divider2 = new component(1080, 2, "divider.png", 0, 250, "image");
+
+    // divider3 = new component(60, 4, "divider1.png", 0, 170, "image");
+
+    roadimage = new component(2036, 359, "roadimage.png", 0, 0, "image");
+
+
+
+
+    mySound = new sound("Guitar19.mp3");
+    myMusic = new sound("Guitar19.mp3");
+    myMusic.play();
+
+    road.start();
+
+    // Use for the key press
+    document.addEventListener('keydown', function(event) {
+        console.log(event.keyCode)
+            switch(event.keyCode) {
+                case 38:
+                    moveup();
+                    break;
+                case 40:
+                    movedown();
+                    break;
+                case 39:
+                    moveright();
+                    break;
+                case 37:
+                    moveleft();
+                    break;
+            }
+    }, false);
+}
+
+// Canvas area Here is use for Road.
+var road = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 1080;
+        this.canvas.height = 360;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+// Designed Car
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if (type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;
+    this.update = function() {
+        ctx = road.context;
+        if (type == "image") {
+            ctx.drawImage(this.image,
+                this.x,
+                this.y,
+                this.width, this.height);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+    }
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
+
+function updateGameArea() {
+    road.clear();
+    // footpath1.newPos();
+    // footpath1.update();
+    // footpath2.newPos();
+    // footpath2.update();
+
+    // divider1.newPos();
+    // divider1.update();
+    // divider2.newPos();
+    // divider2.update();
+
+    // manhole1.newPos();
+    // manhole1.update();
+    // manhole2.newPos();
+    // manhole2.update();
+    // manhole3.newPos();
+    // manhole3.update();
+    // manhole4.newPos();
+    // manhole4.update();
+    // manhole5.newPos();
+    // manhole5.update();
+    // manhole6.newPos();
+    // manhole6.update();
+    // manhole7.newPos();
+    // manhole7.update();
+    // manhole8.newPos();
+    // manhole8.update();
+
+
+    // divider3.newPos();
+    // divider3.update();
+    roadimage.newPos();
+    roadimage.update();
+
+
+    ugcar.newPos();
+    ugcar.update();
+
+}
+
+function moveup() {
+    ugcar.speedY -= 1;
+}
+
+function movedown() {
+    ugcar.speedY += 1;
+}
+
+function moveleft() {
+    // footpath1.speedX -= 1;
+    // footpath2.speedX -= 1;
+    // manhole1.speedX -= 1;
+    // manhole2.speedX -= 1;
+    // manhole3.speedX -= 1;
+    // manhole4.speedX -= 1;
+    // manhole5.speedX -= 1;
+    // manhole6.speedX -= 1;
+    // manhole7.speedX -= 1;
+    // manhole8.speedX -= 1;
+    // divider1.speedX -= 1;
+    // divider2.speedX -= 1;
+    roadimage.speedX -= 1;
+
+
+}
+
+function moveright() {
+    // footpath1.speedX += 1;
+    // footpath2.speedX += 1;
+    // manhole1.speedX += 1;
+    // manhole2.speedX += 1;
+    // manhole3.speedX += 1;
+    // manhole4.speedX += 1;
+    // manhole5.speedX += 1;
+    // manhole6.speedX += 1;
+    // manhole7.speedX += 1;
+    // manhole8.speedX += 1;
+    // divider1.speedX += 1;
+    // divider2.speedX += 1;
+    roadimage.speedX += 1;
+}
+
+
+
+</script>
+</head>
+
+<body onload="startGame()">
+<br/>
+<button onclick="moveup()">UP</button>
+<button onclick="movedown()">DOWN</button>
+<button onclick="moveleft()">Stop</button>
+<button onclick="moveright()">Speed</button>
+<button onclick="sound1()">Sound</button>
+
+</body>
+</html>
