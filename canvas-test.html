@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Canvas testing by UG</title>
+<style>
+canvas {
+    border: 1px solid #d3d3d3;
+    background-color: #696969;
+}
+</style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="400" height="200"></canvas>
+
+<script>
+var canvas = document.getElementById ("myCanvas");
+var ctx = canvas.getContext("2d");
+// Box Draw
+// ctx.fillStyle = "#ffffff";
+// ctx.fillRect(30,30,150,75);
+
+// Stroke
+ctx.moveTo (0,0);
+ctx.lineTo (200, 100);
+ctx. stroke ();
+
+//circle
+ctx.beginPath();
+ctx.arc(95,50,40,0,2*Math.PI);
+ctx.stroke();
+
+function draw(direction) {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var img = document.getElementById("divider1.png")
+    var pat = ctx.createPattern(img, direction);
+    ctx.rect(0, 0, 150, 100);
+    ctx.fillStyle = pat;
+    ctx.fill();
+}
+
+</script>
+
+
+</body>
+</html>
+

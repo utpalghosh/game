@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>River Safari for Child</title>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+
+#SplashScreen{
+    width: 480px;
+    height: 360px;
+    position: absolute;
+    left:10px;
+    top: 10px;
+    background: rgb(54, 25, 25); /* Fall-back for browsers that don't support rgba */
+    background: rgba(54, 25, 25, .7);
+    background: url(river-safari.jpg) no-repeat 50% 50%;
+
+}
+#SplashScreen h1{
+    color: #fff;
+    text-align: center;
+}
+#SplashScreen input{
+    position: absolute;
+    right:0;
+    bottom: 0;
+    width:154px;
+    height: 58px;
+    background: url(button.png) no-repeat 50% 50%;
+    border: 0;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    color: #000;
+    text-shadow: 1px 1px #fff;
+}
+#SplashScreen p{
+    position: absolute;
+    left:50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    color: #16d4f7;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 2px 2px #000;
+}
+
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body onload="startGame()">
+
+<div id="SplashScreen">
+    <input id="StartButton" type="button" value="Play"/>
+</div>
+
+<script>
+
+$("#StartButton").click(function () {
+    $("#SplashScreen").hide();
+    moveright();
+});
+
+var ugcar;
+var myObstacles = [];
+var myScore;
+var mySound;
+var myMusic;
+
+function startGame() {
+    myScore = new component("30px", "Consolas", "red", 0, 0, "text");
+    ugcar = new component(250, 60, "boat.png", 150, 150, "image");//car (width, height, "image name", start-position-left, start-position-top, type);
+    roadimage = new component(3000, 359, "river.png", 0, 0, "image");
+    roadimage1 = new component(3000, 359, "river.png", 3000, 0, "image");
+    roadimage2 = new component(3000, 359, "river.png", 6000, 0, "image");
+    roadimage3 = new component(3000, 359, "river.png", 9000, 0, "image");
+    roadimage4 = new component(3000, 359, "river.png", 12000, 0, "image");
+    roadimage5 = new component(3000, 359, "river.png", 15000, 0, "image");
+    roadimage6 = new component(3000, 359, "river.png", 18000, 0, "image");
+    roadimage7 = new component(3000, 359, "river.png", 21000, 0, "image");
+    roadimage8 = new component(3000, 359, "river.png", 24000, 0, "image");
+    roadimage9 = new component(3000, 359, "river.png", 27000, 0, "image");
+    roadimage10 = new component(3000, 359, "river.png", 30000, 0, "image");
+    roadimage11 = new component(3000, 359, "river.png", 33000, 0, "image");
+    roadimage12 = new component(3000, 359, "river.png", 36000, 0, "image");
+    roadimage13 = new component(3000, 359, "river.png", 39000, 0, "image");
+    roadimage14 = new component(3000, 359, "river.png", 42000, 0, "image");
+    roadimage15 = new component(3000, 359, "river.png", 45000, 0, "image");
+    roadimage16 = new component(3000, 359, "river.png", 48000, 0, "image");
+    roadimage17 = new component(3000, 359, "river.png", 51000, 0, "image");
+    roadimage18 = new component(3000, 359, "river.png", 54000, 0, "image");
+
+
+
+    //ugcar1 = new component(80, 30, "car-orange.png", 150, 100, "image");
+    //ugcar2 = new component(80, 30, "car-red.png", 150, 200, "image");
+
+    mySound = new sound("sounds.wav");
+    myMusic = new sound("sounds.wav");
+    myMusic.play();
+
+    road.start();
+
+    // Use for the key press
+    document.addEventListener('keydown', function(event) {
+        console.log(event.keyCode)
+            switch(event.keyCode) {
+                case 38:
+                    moveup();
+                    break;
+                case 40:
+                    movedown();
+                    break;
+                case 39:
+                    moveright();
+                    break;
+                case 37:
+                    moveleft();
+                    break;
+                case 13:
+                    moveleft();
+                    break;
+            }
+    }, false);
+}
+
+var road = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 360;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    }
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if (type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;
+    this.update = function() {
+        ctx = road.context;
+        if (type == "image") {
+            ctx.drawImage(this.image,
+                this.x,
+                this.y,
+                this.width, this.height);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+    }
+    this.crashWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (ugcar.crashWith(myObstacles[i])) {
+            road.stop();
+            return;
+        }
+    }
+    road.clear();
+    road.frameNo += 1;
+    if (road.frameNo == 1 || everyinterval(50)) {
+        x = road.canvas.width;
+        minHeight = 53;
+        maxHeight = 53;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 250;
+        maxGap = 250;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myObstacles.push(new component(100, height, "green", x, 0));
+        myObstacles.push(new component(100, x - height - gap, "green", x, height + gap));
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].speedX = -1;
+        myObstacles[i].newPos();
+        myObstacles[i].update();
+
+    }
+
+    myScore.text="SCORE: " + road.frameNo;
+    myScore.update();
+    console.log("myScore");
+
+
+    roadimage.newPos();
+    roadimage.update();
+
+    roadimage1.newPos();
+    roadimage1.update();
+
+    roadimage2.newPos();
+    roadimage2.update();
+
+    roadimage3.newPos();
+    roadimage3.update();
+
+    roadimage4.newPos();
+    roadimage4.update();
+
+    roadimage5.newPos();
+    roadimage5.update();
+
+    roadimage6.newPos();
+    roadimage6.update();
+
+    roadimage7.newPos();
+    roadimage7.update();
+
+    roadimage8.newPos();
+    roadimage8.update();
+
+    roadimage9.newPos();
+    roadimage9.update();
+
+    roadimage10.newPos();
+    roadimage10.update();
+
+    roadimage11.newPos();
+    roadimage11.update();
+
+    roadimage12.newPos();
+    roadimage12.update();
+
+    roadimage13.newPos();
+    roadimage13.update();
+
+    roadimage14.newPos();
+    roadimage14.update();
+
+    roadimage15.newPos();
+    roadimage15.update();
+
+    roadimage16.newPos();
+    roadimage16.update();
+
+    roadimage17.newPos();
+    roadimage17.update();
+
+    roadimage18.newPos();
+    roadimage18.update();
+
+
+    ugcar.newPos();
+    ugcar.update();
+
+    // ugcar1.newPos();
+    // ugcar1.update();
+    // ugcar2.newPos();
+    // ugcar2.update();
+}
+
+function everyinterval(n) {
+    if ((road.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function moveup() {
+    ugcar.speedY = -1;
+}
+
+function movedown() {
+    ugcar.speedY = 1;
+}
+
+function moveleft() {
+    roadimage.speedX += 1;
+    roadimage1.speedX += 1;
+    roadimage2.speedX += 1;
+    roadimage3.speedX += 1;
+    roadimage4.speedX += 1;
+    roadimage5.speedX += 1;
+    roadimage6.speedX += 1;
+    roadimage7.speedX += 1;
+    roadimage8.speedX += 1;
+    roadimage9.speedX += 1;
+    roadimage10.speedX += 1;
+    roadimage11.speedX += 1;
+    roadimage12.speedX += 1;
+    roadimage13.speedX += 1;
+    roadimage14.speedX += 1;
+    roadimage15.speedX += 1;
+    roadimage16.speedX += 1;
+    roadimage17.speedX += 1;
+    roadimage18.speedX += 1;
+
+}
+
+function moveright() {
+    roadimage.speedX -= 1;
+    roadimage1.speedX -= 1;
+    roadimage2.speedX -= 1;
+    roadimage3.speedX -= 1;
+    roadimage4.speedX -= 1;
+    roadimage5.speedX -= 1;
+    roadimage6.speedX -= 1;
+    roadimage7.speedX -= 1;
+    roadimage8.speedX -= 1;
+    roadimage9.speedX -= 1;
+    roadimage10.speedX -= 1;
+    roadimage11.speedX -= 1;
+    roadimage12.speedX -= 1;
+    roadimage13.speedX -= 1;
+    roadimage14.speedX -= 1;
+    roadimage15.speedX -= 1;
+    roadimage16.speedX -= 1;
+    roadimage17.speedX -= 1;
+    roadimage18.speedX -= 1;
+
+}
+
+function clearmove() {
+    ugcar.speedX = 0;
+    ugcar.speedY = 0;
+}
+</script>
+
+
+</body>
+</html>
