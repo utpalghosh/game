@@ -65,6 +65,7 @@ canvas {
 $("#StartButton").click(function () {
     $("#SplashScreen").hide();
     moveright();
+    mySound.play();
 });
 
 var ugcar;
@@ -72,10 +73,12 @@ var myObstacles = [];
 var myScore;
 var mySound;
 var myMusic;
+var myMusic1;
+
 
 function startGame() {
     myScore = new component("30px", "Consolas", "red", 0, 0, "text");
-    ugcar = new component(250, 60, "boat.png", 150, 150, "image");//car (width, height, "image name", start-position-left, start-position-top, type);
+    ugcar = new component(250, 60, "boat.png", 0, 150, "image");//car (width, height, "image name", start-position-left, start-position-top, type);
     roadimage = new component(3000, 359, "river.png", 0, 0, "image");
     roadimage1 = new component(3000, 359, "river.png", 3000, 0, "image");
     roadimage2 = new component(3000, 359, "river.png", 6000, 0, "image");
@@ -98,12 +101,53 @@ function startGame() {
 
 
 
-    //ugcar1 = new component(80, 30, "car-orange.png", 150, 100, "image");
-    //ugcar2 = new component(80, 30, "car-red.png", 150, 200, "image");
 
-    mySound = new sound("sounds.wav");
+
+    rock1 = new component(100, 40, "rock.png", 150, 100, "image");
+    rock2 = new component(80, 40, "rock.png", 750, 200, "image");
+    rock3 = new component(120, 40, "rock.png", 1250, 100, "image");
+    rock4 = new component(50, 40, "rock.png", 2450, 200, "image");
+    rock5 = new component(150, 40, "rock.png", 2950, 100, "image");
+    rock6 = new component(100, 40, "rock.png", 3550, 200, "image");
+    rock7 = new component(70, 40, "rock.png", 4150, 100, "image");
+    rock8 = new component(100, 40, "rock.png", 5550, 100, "image");
+    rock9 = new component(80, 40, "rock.png", 6550, 200, "image");
+    rock10 = new component(120, 40, "rock.png", 7550, 100, "image");
+    rock11 = new component(50, 40, "rock.png", 8750, 200, "image");
+    rock12 = new component(150, 40, "rock.png", 9950, 100, "image");
+    rock13 = new component(100, 40, "rock.png", 10050, 200, "image");
+    rock14 = new component(70, 40, "rock.png", 11550, 100, "image");
+    rock15 = new component(100, 40, "rock.png", 12150, 100, "image");
+    rock16 = new component(80, 40, "rock.png", 13750, 200, "image");
+    rock17 = new component(120, 40, "rock.png", 14250, 100, "image");
+    rock18 = new component(50, 40, "rock.png", 15450, 200, "image");
+    rock19 = new component(150, 40, "rock.png", 16250, 100, "image");
+    rock20 = new component(100, 40, "rock.png", 16850, 200, "image");
+    rock21 = new component(70, 40, "rock.png", 17150, 100, "image");
+    rock22 = new component(100, 40, "rock.png", 17850, 100, "image");
+    rock23 = new component(80, 40, "rock.png", 18150, 200, "image");
+    rock24 = new component(120, 40, "rock.png", 18550, 100, "image");
+    rock25 = new component(50, 40, "rock.png", 19750, 200, "image");
+    rock26 = new component(150, 40, "rock.png", 20950, 100, "image");
+    rock27 = new component(100, 40, "rock.png", 21050, 200, "image");
+    rock28 = new component(70, 40, "rock.png", 21850, 100, "image");
+    rock29 = new component(100, 40, "rock.png", 22550, 200, "image");
+    rock30 = new component(70, 40, "rock.png", 23150, 100, "image");
+    rock31 = new component(100, 40, "rock.png", 24550, 100, "image");
+    rock32 = new component(80, 40, "rock.png", 25550, 200, "image");
+    rock33 = new component(120, 40, "rock.png", 26150, 100, "image");
+    rock34 = new component(50, 40, "rock.png", 36750, 200, "image");
+    rock35 = new component(150, 40, "rock.png", 47950, 100, "image");
+    rock36 = new component(100, 40, "rock.png", 58350, 200, "image");
+    rock37 = new component(70, 40, "rock.png", 69550, 100, "image");
+
+    mySound = new sound("boat-sound.mp3");
     myMusic = new sound("sounds.wav");
+    myMusic1 = new sound("tiger.wav");
+
+    //mySound.play();
     myMusic.play();
+    myMusic1.play();
 
     road.start();
 
@@ -121,9 +165,6 @@ function startGame() {
                     moveright();
                     break;
                 case 37:
-                    moveleft();
-                    break;
-                case 13:
                     moveleft();
                     break;
             }
@@ -197,7 +238,8 @@ function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
     this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
+    this.sound.setAttribute("controls", "audio");
+    this.sound.setAttribute("loop", "loop");
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
     this.play = function(){
@@ -206,6 +248,11 @@ function sound(src) {
     this.stop = function(){
         this.sound.pause();
     }
+
+    $("#StartButton").click(function () {
+        mySound.pause();
+        mySound.play();
+    });
 }
 
 function updateGameArea() {
@@ -299,13 +346,124 @@ function updateGameArea() {
     roadimage18.update();
 
 
+    rock1.newPos();
+    rock1.update();
+
+    rock2.newPos();
+    rock2.update();
+
+    rock3.newPos();
+    rock4.update();
+
+    rock4.newPos();
+    rock5.update();
+
+    rock5.newPos();
+    rock5.update();
+
+    rock6.newPos();
+    rock6.update();
+
+    rock7.newPos();
+    rock7.update();
+
+    rock8.newPos();
+    rock8.update();
+
+    rock9.newPos();
+    rock9.update();
+
+    rock10.newPos();
+    rock10.update();
+
+    rock11.newPos();
+    rock11.update();
+
+    rock12.newPos();
+    rock12.update();
+
+    rock13.newPos();
+    rock13.update();
+
+    rock14.newPos();
+    rock14.update();
+
+    rock15.newPos();
+    rock15.update();
+
+    rock16.newPos();
+    rock16.update();
+
+    rock17.newPos();
+    rock17.update();
+
+    rock18.newPos();
+    rock18.update();
+
+    rock19.newPos();
+    rock19.update();
+
+    rock20.newPos();
+    rock20.update();
+
+    rock21.newPos();
+    rock21.update();
+
+    rock22.newPos();
+    rock22.update();
+
+    rock23.newPos();
+    rock14.update();
+
+    rock24.newPos();
+    rock24.update();
+
+    rock25.newPos();
+    rock25.update();
+
+    rock26.newPos();
+    rock26.update();
+
+    rock27.newPos();
+    rock27.update();
+
+    rock28.newPos();
+    rock28.update();
+
+    rock29.newPos();
+    rock29.update();
+
+    rock30.newPos();
+    rock30.update();
+
+    rock31.newPos();
+    rock31.update();
+
+    rock31.newPos();
+    rock31.update();
+
+    rock32.newPos();
+    rock32.update();
+
+    rock33.newPos();
+    rock33.update();
+
+    rock34.newPos();
+    rock34.update();
+
+    rock35.newPos();
+    rock35.update();
+
+    rock36.newPos();
+    rock36.update();
+
+    rock37.newPos();
+    rock37.update();
+
+
     ugcar.newPos();
     ugcar.update();
 
-    // ugcar1.newPos();
-    // ugcar1.update();
-    // ugcar2.newPos();
-    // ugcar2.update();
 }
 
 function everyinterval(n) {
@@ -364,6 +522,45 @@ function moveright() {
     roadimage16.speedX -= 1;
     roadimage17.speedX -= 1;
     roadimage18.speedX -= 1;
+
+
+    rock1.speedX -= 1;
+    rock2.speedX -= 1;
+    rock3.speedX -= 1;
+    rock4.speedX -= 1;
+    rock5.speedX -= 1;
+    rock6.speedX -= 1;
+    rock7.speedX -= 1;
+    rock8.speedX -= 1;
+    rock9.speedX -= 1;
+    rock10.speedX -= 1;
+    rock11.speedX -= 1;
+    rock12.speedX -= 1;
+    rock13.speedX -= 1;
+    rock14.speedX -= 1;
+    rock15.speedX -= 1;
+    rock16.speedX -= 1;
+    rock17.speedX -= 1;
+    rock18.speedX -= 1;
+    rock19.speedX -= 1;
+    rock20.speedX -= 1;
+    rock21.speedX -= 1;
+    rock22.speedX -= 1;
+    rock23.speedX -= 1;
+    rock24.speedX -= 1;
+    rock25.speedX -= 1;
+    rock26.speedX -= 1;
+    rock27.speedX -= 1;
+    rock28.speedX -= 1;
+    rock29.speedX -= 1;
+    rock30.speedX -= 1;
+    rock31.speedX -= 1;
+    rock32.speedX -= 1;
+    rock33.speedX -= 1;
+    rock34.speedX -= 1;
+    rock35.speedX -= 1;
+    rock36.speedX -= 1;
+    rock37.speedX -= 1;
 
 }
 
